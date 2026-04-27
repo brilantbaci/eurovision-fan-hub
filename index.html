@@ -29,29 +29,22 @@
     /* ── HEADER ── */
     header { position: sticky; top: 0; z-index: 100; background: rgba(8, 7, 26, 0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; }
     .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 68px; }
-    .logo { font-family: 'Cinzel', serif; font-size: 1.5rem; font-weight: 700; color: var(--gold); letter-spacing: 0.04em; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .logo { font-family: 'Cinzel', serif; font-size: 1.5rem; font-weight: 700; color: var(--gold); letter-spacing: 0.04em; text-decoration: none; display: flex; align-items: center; gap: 10px; cursor: pointer;}
     .logo-star { display: inline-block; width: 20px; height: 20px; background: var(--pink); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
     nav { display: flex; gap: 2rem; align-items: center; }
-    nav a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+    nav a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; cursor: pointer; }
     nav a:hover { color: var(--gold); }
     nav .nav-cta { background: var(--pink); color: #fff; padding: 0.4rem 1.1rem; border-radius: 2rem; font-size: 0.8rem; }
     nav .nav-cta:hover { background: #ff6698; color: #fff; }
 
     /* ── HERO ── */
-    .hero { position: relative; min-height: 92vh; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 4rem 2rem; overflow: hidden; }
+    .hero { position: relative; min-height: 80vh; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 4rem 2rem; overflow: hidden; transition: all 0.5s ease;}
     .hero-glow { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 60% 50% at 50% 20%, rgba(255,61,127,0.12) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,229,200,0.08) 0%, transparent 60%), radial-gradient(ellipse 40% 30% at 80% 70%, rgba(226,185,74,0.10) 0%, transparent 60%); }
     .hero-eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 1.5rem; position: relative; }
     .hero h1 { font-family: 'Cinzel', serif; font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 700; line-height: 1.1; color: #fff; position: relative; max-width: 800px; }
     .hero h1 span.gold { color: var(--gold); } .hero h1 span.pink { color: var(--pink); }
     .hero-sub { max-width: 560px; color: var(--muted); font-size: 1.1rem; margin: 1.5rem auto 2.5rem; position: relative; }
-    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; position: relative; }
-    .btn { padding: 0.75rem 2rem; border-radius: 2rem; font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; border: none; text-decoration: none; display: inline-block; transition: transform 0.2s, box-shadow 0.2s; }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-primary { background: linear-gradient(135deg, var(--pink), #c42d6a); color: #fff; box-shadow: 0 4px 24px rgba(255,61,127,0.35); }
-    .btn-primary:hover { box-shadow: 0 8px 32px rgba(255,61,127,0.5); }
-    .btn-outline { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); }
-    .btn-outline:hover { background: rgba(226,185,74,0.08); }
-
+    
     /* ── SECTIONS ── */
     section { position: relative; z-index: 1; }
     .section-wrap { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem; }
@@ -113,7 +106,7 @@
     .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
     .footer-brand p { color: var(--muted); font-size: 0.875rem; margin-top: 0.75rem; max-width: 260px; }
     .footer-col h5 { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
-    .footer-col a { display: block; color: var(--muted); text-decoration: none; font-size: 0.875rem; margin-bottom: 0.5rem; transition: color 0.2s; }
+    .footer-col a { display: block; color: var(--muted); text-decoration: none; font-size: 0.875rem; margin-bottom: 0.5rem; transition: color 0.2s; cursor: pointer; }
     .footer-col a:hover { color: var(--text); }
     .footer-bottom { max-width: 1200px; margin: 1.5rem auto 0; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: var(--muted); }
 
@@ -129,30 +122,28 @@
 
   <header>
     <div class="header-inner">
-      <a href="#" class="logo"><span class="logo-star"></span>EuroFever</a>
+      <a onclick="showHome()" class="logo"><span class="logo-star"></span>EuroFever</a>
       <nav>
-        <a href="#news" class="nav-links">News</a>
+        <a onclick="showHome()" class="nav-links">Home</a>
+        <a onclick="filterCategory('News')" class="nav-links">News</a>
+        <a onclick="filterCategory('History')" class="nav-links">History</a>
+        <a onclick="filterCategory('Fun Fact')" class="nav-links">Fun Facts</a>
         <a href="scoreboard.html" class="nav-links">Scoreboard</a>
-        <a href="#newsletter" class="nav-cta">Subscribe</a>
       </nav>
     </div>
   </header>
 
-  <section class="hero">
+  <section class="hero" id="hero-section">
     <div class="hero-glow"></div>
     <p class="hero-eyebrow">✦ The Eurovision Fan Hub ✦</p>
     <h1>Where Every Vote<br>Tells a <span class="gold">Story</span><span class="pink">.</span></h1>
     <p class="hero-sub">News, deep dives, this-day-in-history moments, and glittery fun facts — all for fans, by fans.</p>
-    <div class="hero-actions">
-      <a href="#news" class="btn btn-primary">Latest Articles</a>
-      <a href="scoreboard.html" class="btn btn-outline">Live Scoreboard</a>
-    </div>
   </section>
 
-  <section id="news">
+  <section id="content-area">
     <div class="section-wrap">
-      <p class="section-label">✦ Latest</p>
-      <h2 class="section-title">Fresh from the <span>Stage</span></h2>
+      <p class="section-label" id="dynamic-label">✦ Latest</p>
+      <h2 class="section-title" id="dynamic-title">Fresh from the <span>Stage</span></h2>
 
       <div class="articles-grid" id="dynamic-articles">
         <p style="color: var(--muted);">Loading articles directly from headquarters...</p>
@@ -172,9 +163,7 @@
           <h2 class="modal-title" id="modalTitle">Loading Title...</h2>
           <span class="article-date" id="modalDate" style="color: var(--muted); font-size: 0.9rem;"></span>
         </div>
-        <div class="modal-body" id="modalBody">
-          Loading content...
-        </div>
+        <div class="modal-body" id="modalBody">Loading content...</div>
       </div>
     </div>
   </div>
@@ -182,12 +171,14 @@
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">
-        <a href="#" class="logo"><span class="logo-star"></span>EuroFever</a>
+        <a onclick="showHome()" class="logo" style="cursor:pointer;"><span class="logo-star"></span>EuroFever</a>
         <p>A fan site made with love for the greatest show on Earth. Not affiliated with the EBU or Eurovision Song Contest.</p>
       </div>
       <div class="footer-col">
         <h5>Explore</h5>
-        <a href="#news">Latest News</a>
+        <a onclick="filterCategory('News')">Latest News</a>
+        <a onclick="filterCategory('History')">History</a>
+        <a onclick="filterCategory('Fun Fact')">Fun Facts</a>
         <a href="scoreboard.html">Live Scoreboard</a>
       </div>
       <div class="footer-col">
@@ -203,13 +194,11 @@
   </footer>
 
   <script>
-    // --- 1. SPARKLE GENERATOR ---
+    // --- SPARKLE GENERATOR ---
     const field = document.getElementById('sparkleField');
-    const sparkCount = 80;
-    const types = ['', 'pink', 'teal', 'big'];
-    for (let i = 0; i < sparkCount; i++) {
+    for (let i = 0; i < 80; i++) {
       const s = document.createElement('div');
-      s.className = 'spark ' + (types[Math.floor(Math.random() * types.length)]);
+      s.className = 'spark ' + (['', 'pink', 'teal', 'big'][Math.floor(Math.random() * 4)]);
       s.style.left = Math.random() * 100 + '%';
       s.style.top = Math.random() * 100 + '%';
       s.style.setProperty('--dur', (3 + Math.random() * 5).toFixed(1) + 's');
@@ -217,90 +206,110 @@
       field.appendChild(s);
     }
 
-    // --- 2. GOOGLE SHEETS INTEGRATION ---
+    // --- GOOGLE SHEETS & FILTERING LOGIC ---
     const sheetId = '1hdaSAUNFD8Q6t1wGJ_kqnx7AabbMefj4RuwMU7Oo-aM';
     const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
+    let allArticles = [];
 
     Papa.parse(csvUrl, {
       download: true,
       header: true,
       complete: function(results) {
-        const articles = results.data;
-        const grid = document.getElementById('dynamic-articles');
-        grid.innerHTML = ''; // Clear the "Loading..." text
-
-        articles.forEach((article, index) => {
-          if (!article.Title || article.Title.trim() === '') return; // Skip empty rows
-
-          // Set category colors
-          let tagClass = 'tag-news';
-          const cat = (article.Category || '').toLowerCase();
-          if(cat.includes('history')) tagClass = 'tag-history';
-          else if(cat.includes('fun')) tagClass = 'tag-fun';
-          else if(cat.includes('opinion')) tagClass = 'tag-opinion';
-
-          // Set random background if no image exists
-          const bgClasses = ['bg-pink', 'bg-teal', 'bg-gold', 'bg-purple'];
-          const randomBg = bgClasses[index % bgClasses.length];
-          const emojis = ['🎤', '🏆', '🌍', '🎵', '🗳️', '📅'];
-          const randomEmoji = emojis[index % emojis.length];
-
-          let thumbHtml = '';
-          if(article.Image && article.Image.trim() !== '') {
-            thumbHtml = `<img src="${article.Image}" style="width:100%; height:100%; object-fit:cover;" alt="thumbnail">`;
-          } else {
-            thumbHtml = `<div class="thumb-bg ${randomBg}"></div><span class="thumb-emoji">${randomEmoji}</span>`;
-          }
-
-          // Securely prep data to send to the modal
-          const safeArticle = encodeURIComponent(JSON.stringify(article));
-
-          const card = document.createElement('div');
-          card.className = 'article-card';
-          // Make the whole card click to open the modal
-          card.onclick = () => openModal(decodeURIComponent(safeArticle));
-          card.innerHTML = `
-            <div class="article-thumb">${thumbHtml}</div>
-            <div class="article-body">
-              <div class="article-meta">
-                <span class="tag ${tagClass}">${article.Category || 'News'}</span>
-                <span class="article-date">${article.Date || ''}</span>
-              </div>
-              <h3>${article.Title}</h3>
-              <p>${article.Summary || ''}</p>
-              <span class="article-read">Read more →</span>
-            </div>
-          `;
-          grid.appendChild(card);
-        });
+        // Save all valid articles globally
+        allArticles = results.data.filter(a => a.Title && a.Title.trim() !== '');
+        showHome(); // Load the homepage view by default
       },
       error: function() {
-        document.getElementById('dynamic-articles').innerHTML = '<p style="color: red;">Error connecting to headquarters. Please check the Google Sheet link.</p>';
+        document.getElementById('dynamic-articles').innerHTML = '<p style="color: red;">Error connecting to headquarters.</p>';
       }
     });
 
-    // --- 3. MODAL LOGIC ---
+    function renderCards(articlesToRender) {
+      const grid = document.getElementById('dynamic-articles');
+      grid.innerHTML = ''; 
+
+      if(articlesToRender.length === 0) {
+        grid.innerHTML = '<p style="color: var(--muted);">No articles found in this category yet!</p>';
+        return;
+      }
+
+      articlesToRender.forEach((article, index) => {
+        let tagClass = 'tag-news';
+        const cat = (article.Category || '').toLowerCase();
+        if(cat.includes('history')) tagClass = 'tag-history';
+        else if(cat.includes('fun')) tagClass = 'tag-fun';
+        else if(cat.includes('opinion')) tagClass = 'tag-opinion';
+
+        const bgClasses = ['bg-pink', 'bg-teal', 'bg-gold', 'bg-purple'];
+        const emojis = ['🎤', '🏆', '🌍', '🎵', '🗳️', '📅'];
+        let thumbHtml = '';
+        if(article.Image && article.Image.trim() !== '') {
+          thumbHtml = `<img src="${article.Image}" style="width:100%; height:100%; object-fit:cover;" alt="thumbnail">`;
+        } else {
+          thumbHtml = `<div class="thumb-bg ${bgClasses[index % bgClasses.length]}"></div><span class="thumb-emoji">${emojis[index % emojis.length]}</span>`;
+        }
+
+        const safeArticle = encodeURIComponent(JSON.stringify(article));
+        const card = document.createElement('div');
+        card.className = 'article-card';
+        card.onclick = () => openModal(decodeURIComponent(safeArticle));
+        card.innerHTML = `
+          <div class="article-thumb">${thumbHtml}</div>
+          <div class="article-body">
+            <div class="article-meta">
+              <span class="tag ${tagClass}">${article.Category || 'News'}</span>
+              <span class="article-date">${article.Date || ''}</span>
+            </div>
+            <h3>${article.Title}</h3>
+            <p>${article.Summary || ''}</p>
+            <span class="article-read">Read more →</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function showHome() {
+      // Show hero
+      document.getElementById('hero-section').style.display = 'flex';
+      // Reset titles
+      document.getElementById('dynamic-label').innerHTML = '✦ Latest';
+      document.getElementById('dynamic-title').innerHTML = 'Fresh from the <span>Stage</span>';
+      // Render only the top 6 most recent articles
+      renderCards(allArticles.slice(0, 6));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function filterCategory(categoryName) {
+      // Hide hero banner to focus on content
+      document.getElementById('hero-section').style.display = 'none';
+      // Update titles
+      document.getElementById('dynamic-label').innerHTML = `✦ ${categoryName}`;
+      document.getElementById('dynamic-title').innerHTML = `${categoryName} <span>Archive</span>`;
+      
+      // Filter the array based on what was typed in the Category column
+      const filtered = allArticles.filter(a => (a.Category || '').toLowerCase().includes(categoryName.toLowerCase()));
+      renderCards(filtered);
+      
+      // Scroll smoothly to the top of the content area
+      document.getElementById('content-area').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // --- MODAL LOGIC ---
     function openModal(articleJson) {
       const article = JSON.parse(articleJson);
-      
       document.getElementById('modalTitle').textContent = article.Title;
       document.getElementById('modalDate').textContent = article.Date || '';
       document.getElementById('modalTag').textContent = article.Category || 'News';
-      
-      // We use textContent for safety, but CSS "white-space: pre-wrap" preserves your paragraph Enters!
       document.getElementById('modalBody').textContent = article.Content || 'No full article text provided.';
       
-      // Handle Image
       const imgEl = document.getElementById('modalImg');
       if(article.Image && article.Image.trim() !== '') {
-         imgEl.src = article.Image;
-         imgEl.style.display = 'block';
+         imgEl.src = article.Image; imgEl.style.display = 'block';
       } else {
-         imgEl.style.display = 'none';
-         imgEl.src = '';
+         imgEl.style.display = 'none'; imgEl.src = '';
       }
 
-      // Show Modal & lock background scrolling
       document.getElementById('articleModal').classList.add('active');
       document.body.style.overflow = 'hidden';
     }
@@ -308,7 +317,7 @@
     function closeModal(e) {
       if(e) e.preventDefault();
       document.getElementById('articleModal').classList.remove('active');
-      document.body.style.overflow = 'auto'; // Unlock background scrolling
+      document.body.style.overflow = 'auto';
     }
   </script>
 </body>
