@@ -1,157 +1,115 @@
-/* ── THE DESIGN ENGINE ── */
 :root {
-  /* Colors - Managed by your Design Lab Sidebar */
-  --bg: #f4f4f9;
-  --bg-card: #ffffff;
-  --primary: #00005b; /* Eurovision Blue */
-  --accent: #ffcc00;  /* Star Yellow */
-  --text: #333333;
-  --muted: #666666;
-  --border: rgba(0, 0, 91, 0.1);
-  
-  /* Layout Controls */
-  --rounding: 8px;
-  --container-width: 1200px;
-  --gap: 2rem;
-  
-  /* Effects */
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* THE "EUROFEVER" DARK THEME PRESETS */
+  --bg: #08071a;
+  --bg-card: rgba(255, 255, 255, 0.05);
+  --primary: #ff3d7f; /* Neon Pink */
+  --accent: #00e5c8;  /* Teal */
+  --text: #f0edf8;
+  --muted: #9b97b8;
+  --border: rgba(255, 255, 255, 0.1);
+  --rounding: 14px;
 }
 
-/* ── BASE STYLES ── */
 body {
-  font-family: 'Nunito', 'Segoe UI', sans-serif;
+  font-family: 'Nunito', sans-serif;
   margin: 0;
   padding: 0;
   background-color: var(--bg);
   color: var(--text);
-  line-height: 1.6;
+  /* Re-adding that subtle glow look */
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 61, 127, 0.15) 0%, transparent 50%);
+  background-attachment: fixed;
 }
 
-/* ── HEADER & NAVIGATION ── */
 header {
-  background-color: var(--primary);
+  background: rgba(8, 7, 26, 0.95);
+  backdrop-filter: blur(10px);
   color: white;
   text-align: center;
-  padding: 2.5rem 0 0 0;
-  box-shadow: var(--shadow);
-}
-
-.header-content {
-  padding: 0 1rem 1.5rem 1rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border);
 }
 
 nav {
-  background-color: rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(5px);
   padding: 1rem;
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
-nav button, nav a {
-  background-color: transparent;
-  color: white;
-  border: 2px solid var(--accent);
-  padding: 0.6rem 1.2rem;
-  cursor: pointer;
+nav a {
+  color: var(--muted);
+  text-decoration: none;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: var(--rounding);
-  transition: var(--transition);
-  text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  transition: 0.3s;
+  cursor: pointer;
 }
 
-nav button:hover, nav a:hover {
-  background-color: var(--accent);
+nav a:hover {
   color: var(--primary);
-  transform: translateY(-2px);
+  text-shadow: 0 0 10px var(--primary);
 }
 
-/* ── MAIN LAYOUT (GRID) ── */
 .container {
   display: grid;
-  grid-template-columns: 3fr 1fr; /* Professional Sidebar Ratio */
-  max-width: var(--container-width);
+  grid-template-columns: 3fr 1fr;
+  max-width: 1200px;
   margin: 3rem auto;
-  padding: 0 1.5rem;
-  gap: var(--gap);
+  padding: 0 2rem;
+  gap: 2rem;
 }
 
-/* Responsive Grid for Phones */
-@media (max-width: 850px) {
-  .container {
-    grid-template-columns: 1fr;
-  }
-}
+@media (max-width: 850px) { .container { grid-template-columns: 1fr; } }
 
-/* ── ARTICLE CARDS ── */
 .card {
   background: var(--bg-card);
+  backdrop-filter: blur(5px);
   padding: 2rem;
-  margin-bottom: var(--gap);
+  margin-bottom: 1.5rem;
   border-radius: var(--rounding);
-  box-shadow: var(--shadow);
-  border-left: 6px solid var(--primary);
-  transition: var(--transition);
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: 0.3s;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-color: var(--primary);
+  box-shadow: 0 0 20px rgba(255, 61, 127, 0.1);
 }
 
 .card h2 {
   margin-top: 0;
-  color: var(--primary);
+  color: #fff;
   font-family: 'Cinzel', serif;
 }
 
-.card p {
-  color: var(--muted);
-}
-
-/* ── WIDGETS (Sidebar) ── */
 .widget {
-  background-color: var(--accent);
-  color: var(--primary);
+  background: linear-gradient(135deg, var(--primary), #8000ff);
+  color: white;
   padding: 1.5rem;
   border-radius: var(--rounding);
-  box-shadow: var(--shadow);
-  position: sticky;
-  top: 100px; /* Sticks as you scroll */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .widget h3 {
   margin-top: 0;
   font-family: 'Cinzel', serif;
-  border-bottom: 2px solid var(--primary);
-  padding-bottom: 0.5rem;
 }
 
-/* ── FOOTER ── */
 footer {
   text-align: center;
-  padding: 4rem 2rem;
-  margin-top: 4rem;
-  background-color: var(--primary);
-  color: white;
+  padding: 4rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
 }
 
-footer p {
-  opacity: 0.7;
-  font-size: 0.9rem;
-}
-
-/* ── MODAL (Popup) STYLES ── */
+/* MODAL FIXES */
 .modal-content {
-  border-radius: var(--rounding) !important;
-  border: 2px solid var(--primary);
+  background: #0e0c25 !important;
+  color: white !important;
+  border: 1px solid var(--primary) !important;
 }
+
+#modalBody { color: #ccc !important; }
