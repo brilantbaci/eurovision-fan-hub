@@ -57,4 +57,29 @@ function loadOnThisDay() {
 window.onload = () => {
     loadContent('news'); // Load news by default
     loadOnThisDay();
+
+    function toggleAdmin() {
+      const bar = document.getElementById('adminSidebar');
+      bar.style.right = bar.style.right === '0px' ? '-300px' : '0px';
+    }
+
+    function updateStyle(variable, value) {
+      document.documentElement.style.setProperty(variable, value);
+    }
+
+    function exportStyles() {
+      const root = document.documentElement;
+      const css = `
+:root {
+  --bg: ${getComputedStyle(root).getPropertyValue('--bg')};
+  --bg2: ${getComputedStyle(root).getPropertyValue('--bg2')};
+  --gold: ${getComputedStyle(root).getPropertyValue('--gold')};
+  --pink: ${getComputedStyle(root).getPropertyValue('--pink')};
+  --teal: ${getComputedStyle(root).getPropertyValue('--teal')};
+  --rounding: ${getComputedStyle(root).getPropertyValue('--rounding')};
+}`;
+      navigator.clipboard.writeText(css).then(() => {
+        alert("Styles copied! Paste this into your :root section in GitHub to save permanently.");
+      });
+    }
 };
