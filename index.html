@@ -4,530 +4,124 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EuroFever — Your Eurovision Fan Hub</title>
+  
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+  
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #08071a;
-      --bg2: #0e0c25;
-      --bg3: #13102e;
-      --gold: #e2b94a;
-      --gold-light: #f5d98b;
-      --pink: #ff3d7f;
-      --teal: #00e5c8;
-      --text: #f0edf8;
-      --muted: #9b97b8;
-      --border: rgba(226, 185, 74, 0.2);
-      --card-bg: rgba(255,255,255,0.04);
+      --bg: #08071a; --bg2: #0e0c25; --bg3: #13102e;
+      --gold: #e2b94a; --gold-light: #f5d98b; --pink: #ff3d7f;
+      --teal: #00e5c8; --text: #f0edf8; --muted: #9b97b8;
+      --border: rgba(226, 185, 74, 0.2); --card-bg: rgba(255,255,255,0.04);
     }
 
     html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Nunito', sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
+    body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 16px; line-height: 1.7; overflow-x: hidden; }
 
     /* ── SPARKLES ── */
-    .sparkle-field {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
-    }
-    .spark {
-      position: absolute;
-      width: 2px; height: 2px;
-      border-radius: 50%;
-      background: var(--gold-light);
-      opacity: 0;
-      animation: twinkle var(--dur, 4s) var(--delay, 0s) infinite ease-in-out;
-    }
-    .spark.pink { background: var(--pink); }
-    .spark.teal { background: var(--teal); }
-    .spark.big { width: 3px; height: 3px; }
-    @keyframes twinkle {
-      0%, 100% { opacity: 0; transform: scale(0.5); }
-      50% { opacity: 0.85; transform: scale(1.4); }
-    }
+    .sparkle-field { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .spark { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: var(--gold-light); opacity: 0; animation: twinkle var(--dur, 4s) var(--delay, 0s) infinite ease-in-out; }
+    .spark.pink { background: var(--pink); } .spark.teal { background: var(--teal); } .spark.big { width: 3px; height: 3px; }
+    @keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 0.85; transform: scale(1.4); } }
 
     /* ── HEADER ── */
-    header {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(8, 7, 26, 0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-    }
-    .header-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 68px;
-    }
-    .logo {
-      font-family: 'Cinzel', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 0.04em;
-      text-decoration: none;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .logo-star {
-      display: inline-block;
-      width: 20px; height: 20px;
-      background: var(--pink);
-      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    }
+    header { position: sticky; top: 0; z-index: 100; background: rgba(8, 7, 26, 0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { font-family: 'Cinzel', serif; font-size: 1.5rem; font-weight: 700; color: var(--gold); letter-spacing: 0.04em; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .logo-star { display: inline-block; width: 20px; height: 20px; background: var(--pink); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
     nav { display: flex; gap: 2rem; align-items: center; }
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
+    nav a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
     nav a:hover { color: var(--gold); }
-    nav .nav-cta {
-      background: var(--pink);
-      color: #fff;
-      padding: 0.4rem 1.1rem;
-      border-radius: 2rem;
-      font-size: 0.8rem;
-    }
+    nav .nav-cta { background: var(--pink); color: #fff; padding: 0.4rem 1.1rem; border-radius: 2rem; font-size: 0.8rem; }
     nav .nav-cta:hover { background: #ff6698; color: #fff; }
 
     /* ── HERO ── */
-    .hero {
-      position: relative;
-      min-height: 92vh;
-      display: flex; align-items: center; justify-content: center; flex-direction: column;
-      text-align: center;
-      padding: 4rem 2rem;
-      overflow: hidden;
-    }
-    .hero-glow {
-      position: absolute; inset: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 60% 50% at 50% 20%, rgba(255,61,127,0.12) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,229,200,0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 30% at 80% 70%, rgba(226,185,74,0.10) 0%, transparent 60%);
-    }
-    .hero-eyebrow {
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 1.5rem;
-      position: relative;
-    }
-    .hero h1 {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(2.8rem, 7vw, 5.5rem);
-      font-weight: 700;
-      line-height: 1.1;
-      color: #fff;
-      position: relative;
-      max-width: 800px;
-    }
-    .hero h1 span.gold { color: var(--gold); }
-    .hero h1 span.pink { color: var(--pink); }
-    .hero-sub {
-      max-width: 560px;
-      color: var(--muted);
-      font-size: 1.1rem;
-      margin: 1.5rem auto 2.5rem;
-      position: relative;
-    }
-    .hero-actions {
-      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
-      position: relative;
-    }
-    .btn {
-      padding: 0.75rem 2rem;
-      border-radius: 2rem;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-      text-decoration: none;
-      display: inline-block;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+    .hero { position: relative; min-height: 92vh; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 4rem 2rem; overflow: hidden; }
+    .hero-glow { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 60% 50% at 50% 20%, rgba(255,61,127,0.12) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,229,200,0.08) 0%, transparent 60%), radial-gradient(ellipse 40% 30% at 80% 70%, rgba(226,185,74,0.10) 0%, transparent 60%); }
+    .hero-eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 1.5rem; position: relative; }
+    .hero h1 { font-family: 'Cinzel', serif; font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 700; line-height: 1.1; color: #fff; position: relative; max-width: 800px; }
+    .hero h1 span.gold { color: var(--gold); } .hero h1 span.pink { color: var(--pink); }
+    .hero-sub { max-width: 560px; color: var(--muted); font-size: 1.1rem; margin: 1.5rem auto 2.5rem; position: relative; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; position: relative; }
+    .btn { padding: 0.75rem 2rem; border-radius: 2rem; font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; border: none; text-decoration: none; display: inline-block; transition: transform 0.2s, box-shadow 0.2s; }
     .btn:hover { transform: translateY(-2px); }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--pink), #c42d6a);
-      color: #fff;
-      box-shadow: 0 4px 24px rgba(255,61,127,0.35);
-    }
+    .btn-primary { background: linear-gradient(135deg, var(--pink), #c42d6a); color: #fff; box-shadow: 0 4px 24px rgba(255,61,127,0.35); }
     .btn-primary:hover { box-shadow: 0 8px 32px rgba(255,61,127,0.5); }
-    .btn-outline {
-      background: transparent;
-      color: var(--gold);
-      border: 1.5px solid var(--gold);
-    }
+    .btn-outline { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); }
     .btn-outline:hover { background: rgba(226,185,74,0.08); }
-
-    /* ── TICKER ── */
-    .ticker-wrap {
-      background: var(--pink);
-      padding: 0.55rem 0;
-      overflow: hidden;
-      position: relative;
-    }
-    .ticker {
-      display: flex;
-      animation: ticker 40s linear infinite;
-      white-space: nowrap;
-    }
-    .ticker-item {
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: #fff;
-      padding: 0 3rem;
-    }
-    .ticker-dot {
-      color: rgba(255,255,255,0.5);
-      margin: 0 0.5rem;
-    }
-    @keyframes ticker {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
 
     /* ── SECTIONS ── */
     section { position: relative; z-index: 1; }
     .section-wrap { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem; }
-    .section-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 0.5rem;
-    }
-    .section-title {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 3rem;
-    }
+    .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.5rem; }
+    .section-title { font-family: 'Cinzel', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 600; color: #fff; margin-bottom: 3rem; }
     .section-title span { color: var(--gold); }
 
-    /* ── THIS DAY ── */
-    .this-day-section { background: var(--bg2); }
-    .this-day-card {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      background: var(--bg3);
-    }
-    .this-day-visual {
-      background: linear-gradient(135deg, #1a0a2e 0%, #0e1a40 100%);
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column;
-      padding: 3rem 2rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .this-day-visual::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 50%, rgba(226,185,74,0.15) 0%, transparent 70%);
-    }
-    .this-day-date-badge {
-      font-family: 'Cinzel', serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      border: 1px solid var(--gold);
-      padding: 0.3rem 1rem;
-      border-radius: 2rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-    }
-    .this-day-year {
-      font-family: 'Cinzel', serif;
-      font-size: 6rem;
-      font-weight: 700;
-      color: rgba(226,185,74,0.15);
-      line-height: 1;
-      position: relative;
-    }
-    .this-day-flag {
-      font-size: 5rem;
-      position: absolute;
-      bottom: 2rem;
-      right: 2rem;
-      opacity: 0.7;
-      filter: drop-shadow(0 0 20px rgba(226,185,74,0.4));
-    }
-    .this-day-content {
-      padding: 3rem 2.5rem;
-      display: flex; flex-direction: column; justify-content: center;
-    }
-    .this-day-tag {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      background: rgba(255,61,127,0.12);
-      border: 1px solid rgba(255,61,127,0.3);
-      color: var(--pink);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.25rem 0.75rem;
-      border-radius: 2rem;
-      width: fit-content;
-      margin-bottom: 1.2rem;
-    }
-    .this-day-content h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 1rem;
-      line-height: 1.3;
-    }
-    .this-day-content p {
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-      font-size: 0.95rem;
-    }
-    .this-day-content .btn { align-self: flex-start; }
-
     /* ── ARTICLES GRID ── */
-    .articles-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-    .article-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      display: flex; flex-direction: column;
-      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
-      cursor: pointer;
-    }
-    .article-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(226,185,74,0.45);
-      box-shadow: 0 12px 40px rgba(226,185,74,0.07);
-    }
-    .article-thumb {
-      height: 180px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 4rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .article-thumb .thumb-bg {
-      position: absolute; inset: 0;
-    }
-    .article-thumb .thumb-emoji {
-      position: relative; z-index: 1;
-      filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
-    }
+    .articles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .article-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s; cursor: pointer; }
+    .article-card:hover { transform: translateY(-4px); border-color: rgba(226,185,74,0.45); box-shadow: 0 12px 40px rgba(226,185,74,0.07); }
+    .article-thumb { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 4rem; position: relative; overflow: hidden; }
+    .article-thumb .thumb-bg { position: absolute; inset: 0; }
+    .article-thumb .thumb-emoji { position: relative; z-index: 1; filter: drop-shadow(0 0 20px rgba(0,0,0,0.5)); }
     .bg-pink { background: linear-gradient(135deg, #2a0a1a, #1a0520); }
     .bg-teal { background: linear-gradient(135deg, #001a1a, #001030); }
     .bg-gold { background: linear-gradient(135deg, #1a1200, #0e0c00); }
     .bg-purple { background: linear-gradient(135deg, #140a2e, #0a0520); }
     .article-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
-    .article-meta {
-      display: flex; gap: 0.6rem; align-items: center;
-      margin-bottom: 0.8rem;
-    }
-    .tag {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.2rem 0.6rem;
-      border-radius: 0.3rem;
-    }
+    .article-meta { display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.8rem; }
+    .tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 0.3rem; }
     .tag-news { background: rgba(0,229,200,0.12); color: var(--teal); }
     .tag-fun { background: rgba(226,185,74,0.12); color: var(--gold); }
     .tag-history { background: rgba(255,61,127,0.12); color: var(--pink); }
     .tag-opinion { background: rgba(180,120,255,0.12); color: #c49aff; }
     .article-date { font-size: 0.75rem; color: var(--muted); margin-left: auto; }
-    .article-card h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #fff;
-      line-height: 1.35;
-      margin-bottom: 0.6rem;
-    }
-    .article-card p {
-      font-size: 0.875rem;
-      color: var(--muted);
-      flex: 1;
-      margin-bottom: 1rem;
-    }
-    .article-read {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      text-decoration: none;
-    }
-    .article-read:hover { color: var(--gold-light); }
+    .article-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #fff; line-height: 1.35; margin-bottom: 0.6rem; }
+    .article-card p { font-size: 0.875rem; color: var(--muted); flex: 1; margin-bottom: 1rem; }
+    .article-read { font-size: 0.8rem; font-weight: 700; color: var(--gold); letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; }
 
-    /* ── FUN FACTS ── */
-    .fun-facts-section { background: var(--bg2); }
-    .facts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.25rem;
+    /* ── READING MODAL ── */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(8, 7, 26, 0.9); backdrop-filter: blur(8px);
+      z-index: 1000; display: none; align-items: center; justify-content: center;
+      padding: 1rem; opacity: 0; transition: opacity 0.3s ease;
     }
-    .fact-card {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.75rem 1.5rem;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.25s, border-color 0.25s;
+    .modal-overlay.active { display: flex; opacity: 1; }
+    .modal-content {
+      background: var(--bg2); border: 1px solid var(--gold); border-radius: 16px;
+      max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto;
+      position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     }
-    .fact-card:hover { transform: translateY(-3px); border-color: rgba(226,185,74,0.4); }
-    .fact-number {
-      font-family: 'Cinzel', serif;
-      font-size: 3rem;
-      font-weight: 700;
-      color: rgba(226,185,74,0.15);
-      line-height: 1;
-      margin-bottom: 0.5rem;
+    .modal-close {
+      position: absolute; top: 1rem; right: 1.5rem; background: rgba(0,0,0,0.5);
+      border: 1px solid var(--border); border-radius: 50%; width: 40px; height: 40px;
+      color: #fff; font-size: 1.5rem; cursor: pointer; transition: 0.2s; z-index: 10;
+      display: flex; align-items: center; justify-content: center;
     }
-    .fact-card h4 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      color: var(--gold);
-      margin-bottom: 0.5rem;
-    }
-    .fact-card p { font-size: 0.875rem; color: var(--muted); }
-    .fact-accent {
-      position: absolute; top: 1rem; right: 1rem;
-      font-size: 1.8rem; opacity: 0.5;
-    }
-
-    /* ── NEWSLETTER ── */
-    .newsletter-section {
-      background: linear-gradient(135deg, #120a2e, #0a1428);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .newsletter-inner {
-      max-width: 600px; margin: 0 auto; text-align: center; padding: 5rem 2rem;
-    }
-    .newsletter-inner .section-title { margin-bottom: 1rem; }
-    .newsletter-inner p { color: var(--muted); margin-bottom: 2rem; }
-    .newsletter-form {
-      display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;
-    }
-    .newsletter-form input {
-      flex: 1 1 240px;
-      padding: 0.75rem 1.25rem;
-      border-radius: 2rem;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .newsletter-form input::placeholder { color: var(--muted); }
-    .newsletter-form input:focus { border-color: var(--gold); }
+    .modal-close:hover { background: var(--pink); border-color: var(--pink); }
+    .modal-img { width: 100%; max-height: 400px; object-fit: cover; display: none; border-bottom: 1px solid var(--border); }
+    .modal-text-wrap { padding: 2.5rem; }
+    .modal-header { margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+    .modal-title { font-family: 'Cinzel', serif; font-size: 2.2rem; color: #fff; margin: 0.5rem 0; line-height: 1.2; }
+    .modal-body { font-size: 1.1rem; line-height: 1.8; color: var(--text); white-space: pre-wrap; font-family: 'Nunito', sans-serif; }
 
     /* ── FOOTER ── */
-    footer {
-      background: var(--bg);
-      border-top: 1px solid var(--border);
-      padding: 3rem 2rem 2rem;
-    }
-    .footer-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .footer-brand p {
-      color: var(--muted); font-size: 0.875rem; margin-top: 0.75rem; max-width: 260px;
-    }
-    .footer-col h5 {
-      font-family: 'Cinzel', serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-    }
-    .footer-col a {
-      display: block;
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.875rem;
-      margin-bottom: 0.5rem;
-      transition: color 0.2s;
-    }
+    footer { background: var(--bg); border-top: 1px solid var(--border); padding: 3rem 2rem 2rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .footer-brand p { color: var(--muted); font-size: 0.875rem; margin-top: 0.75rem; max-width: 260px; }
+    .footer-col h5 { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .footer-col a { display: block; color: var(--muted); text-decoration: none; font-size: 0.875rem; margin-bottom: 0.5rem; transition: color 0.2s; }
     .footer-col a:hover { color: var(--text); }
-    .footer-bottom {
-      max-width: 1200px; margin: 1.5rem auto 0;
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: 0.8rem; color: var(--muted);
-    }
-    .footer-bottom a { color: var(--muted); text-decoration: none; }
-    .footer-bottom a:hover { color: var(--gold); }
+    .footer-bottom { max-width: 1200px; margin: 1.5rem auto 0; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: var(--muted); }
 
-    /* ── DIVIDER ORNAMENT ── */
-    .ornament {
-      text-align: center;
-      padding: 1.5rem 0;
-      font-size: 1.2rem;
-      opacity: 0.25;
-      letter-spacing: 0.5rem;
-    }
-
-    /* ── FEATURED BADGE ── */
-    .featured-badge {
-      display: inline-block;
-      background: linear-gradient(135deg, var(--gold), #c8960a);
-      color: #0a0700;
-      font-size: 0.65rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 0.2rem 0.6rem;
-      border-radius: 0.25rem;
-      margin-left: 0.5rem;
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .this-day-card { grid-template-columns: 1fr; }
-      .this-day-visual { min-height: 220px; }
-      .footer-inner { grid-template-columns: 1fr 1fr; }
-      nav .nav-links { display: none; }
-    }
-    @media (max-width: 480px) {
-      .footer-inner { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 768px) { .footer-inner { grid-template-columns: 1fr 1fr; } nav .nav-links { display: none; } .modal-text-wrap { padding: 1.5rem; } .modal-title { font-size: 1.5rem; } }
+    @media (max-width: 480px) { .footer-inner { grid-template-columns: 1fr; } }
   </style>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
 <body>
 
@@ -535,264 +129,71 @@
 
   <header>
     <div class="header-inner">
-      <a href="index.html" class="logo">
-        <span class="logo-star"></span>
-        EuroFever
-      </a>
+      <a href="#" class="logo"><span class="logo-star"></span>EuroFever</a>
       <nav>
         <a href="#news" class="nav-links">News</a>
-        <a href="scoreboard.html" class="nav-links" style="color: var(--gold);">Scoreboard</a>
-        <a href="#history" class="nav-links">History</a>
-        <a href="#facts" class="nav-links">Fun Facts</a>
+        <a href="scoreboard.html" class="nav-links">Scoreboard</a>
         <a href="#newsletter" class="nav-cta">Subscribe</a>
       </nav>
     </div>
   </header>
 
-  <div class="ticker-wrap">
-    <div class="ticker" id="ticker">
-      <span class="ticker-item">Eurovision 2025 — Basel, Switzerland <span class="ticker-dot">✦</span></span>
-      <span class="ticker-item">Grand Final: May 17, 2025 <span class="ticker-dot">✦</span></span>
-      <span class="ticker-item">41 Countries Competing <span class="ticker-dot">✦</span></span>
-      <span class="ticker-item">Nemo won for Switzerland in 2024 <span class="ticker-dot">✦</span></span>
-      <span class="ticker-item">Eurovision turned 69 this year <span class="ticker-dot">✦</span></span>
-      <span class="ticker-item">Welcome to EuroFever — the ultimate fan hub <span class="ticker-dot">✦</span></span>
-      <span class="ticker-item">Eurovision 2025 — Basel, Switzerland <span class="ticker-dot">✦</span></span>
-      <span class="ticker-item">Grand Final: May 17, 2025 <span class="ticker-dot">✦</span></span>
-      <span class="ticker-item">41 Countries Competing <span class="ticker-dot">✦</span></span>
-      <span class="ticker-item">Nemo won for Switzerland in 2024 <span class="ticker-dot">✦</span></span>
-      <span class="ticker-item">Eurovision turned 69 this year <span class="ticker-dot">✦</span></span>
-      <span class="ticker-item">Welcome to EuroFever — the ultimate fan hub <span class="ticker-dot">✦</span></span>
-    </div>
-  </div>
-
   <section class="hero">
     <div class="hero-glow"></div>
     <p class="hero-eyebrow">✦ The Eurovision Fan Hub ✦</p>
-    <h1>
-      Where Every Vote<br>
-      Tells a <span class="gold">Story</span>
-      <span class="pink">.</span>
-    </h1>
-    <p class="hero-sub">
-      News, deep dives, this-day-in-history moments, and glittery fun facts —
-      all for fans, by fans.
-    </p>
+    <h1>Where Every Vote<br>Tells a <span class="gold">Story</span><span class="pink">.</span></h1>
+    <p class="hero-sub">News, deep dives, this-day-in-history moments, and glittery fun facts — all for fans, by fans.</p>
     <div class="hero-actions">
       <a href="#news" class="btn btn-primary">Latest Articles</a>
-      <a href="#history" class="btn btn-outline">This Day in Eurovision</a>
+      <a href="scoreboard.html" class="btn btn-outline">Live Scoreboard</a>
     </div>
   </section>
-
-  <section class="this-day-section" id="history">
-    <div class="section-wrap">
-      <p class="section-label">✦ On This Day</p>
-      <h2 class="section-title">This Day in <span>Eurovision History</span></h2>
-
-      <div class="this-day-card">
-        <div class="this-day-visual">
-          <div class="this-day-date-badge" id="todayDate">Loading date…</div>
-          <div class="this-day-year">2012</div>
-          <span class="this-day-flag">🇸🇪</span>
-        </div>
-        <div class="this-day-content">
-          <span class="this-day-tag">✦ History</span>
-          <h2>Loreen's "Euphoria" Wins Eurovision 2012 — A Legend Is Born</h2>
-          <p>
-            On this day in 2012, Loreen of Sweden took the stage in Baku, Azerbaijan and delivered what
-            would become one of the most iconic Eurovision performances in history. "Euphoria" won by
-            a record-breaking margin, changing the course of the contest forever.
-          </p>
-          <a href="#" class="btn btn-primary">Read the Full Story</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="ornament">✦ ✦ ✦</div>
 
   <section id="news">
     <div class="section-wrap">
       <p class="section-label">✦ Latest</p>
       <h2 class="section-title">Fresh from the <span>Stage</span></h2>
 
-      <div class="articles-grid">
-
-        <div class="article-card">
-          <div class="article-thumb">
-            <div class="thumb-bg bg-pink"></div>
-            <span class="thumb-emoji">🎤</span>
-          </div>
-          <div class="article-body">
-            <div class="article-meta">
-              <span class="tag tag-news">News</span>
-              <span class="article-date">Apr 27, 2026</span>
-            </div>
-            <h3>Basel 2025: Everything You Need to Know Before the Grand Final</h3>
-            <p>From running order to fan predictions — your complete guide to this year's contest in Switzerland.</p>
-            <a href="#" class="article-read">Read more →</a>
-          </div>
-        </div>
-
-        <div class="article-card">
-          <div class="article-thumb">
-            <div class="thumb-bg bg-gold"></div>
-            <span class="thumb-emoji">🏆</span>
-          </div>
-          <div class="article-body">
-            <div class="article-meta">
-              <span class="tag tag-history">History</span>
-              <span class="article-date">Apr 25, 2026</span>
-            </div>
-            <h3>The 10 Most Shocking Eurovision Results of All Time <span class="featured-badge">Featured</span></h3>
-            <p>From nil points disasters to unexpected landslide victories — the moments that left us speechless.</p>
-            <a href="#" class="article-read">Read more →</a>
-          </div>
-        </div>
-
-        <div class="article-card">
-          <div class="article-thumb">
-            <div class="thumb-bg bg-teal"></div>
-            <span class="thumb-emoji">🌍</span>
-          </div>
-          <div class="article-body">
-            <div class="article-meta">
-              <span class="tag tag-fun">Fun Fact</span>
-              <span class="article-date">Apr 22, 2026</span>
-            </div>
-            <h3>Why Australia Still Competes in Eurovision (And We're Glad They Do)</h3>
-            <p>A deep dive into the fascinating, unlikely story of how Australia became part of Europe's biggest party.</p>
-            <a href="#" class="article-read">Read more →</a>
-          </div>
-        </div>
-
-        <div class="article-card">
-          <div class="article-thumb">
-            <div class="thumb-bg bg-purple"></div>
-            <span class="thumb-emoji">🎵</span>
-          </div>
-          <div class="article-body">
-            <div class="article-meta">
-              <span class="tag tag-opinion">Opinion</span>
-              <span class="article-date">Apr 20, 2026</span>
-            </div>
-            <h3>The Ballad Is Back: Why Slow Songs Are Dominating Eurovision Again</h3>
-            <p>After years of uptempo bangers ruling the stage, emotional ballads are making a triumphant return.</p>
-            <a href="#" class="article-read">Read more →</a>
-          </div>
-        </div>
-
-        <div class="article-card">
-          <div class="article-thumb">
-            <div class="thumb-bg bg-pink"></div>
-            <span class="thumb-emoji">🗳️</span>
-          </div>
-          <div class="article-body">
-            <div class="article-meta">
-              <span class="tag tag-news">News</span>
-              <span class="article-date">Apr 18, 2026</span>
-            </div>
-            <h3>How the Eurovision Voting System Actually Works — Explained Simply</h3>
-            <p>Jury votes, televotes, and running order advantages — we break down the math behind the magic.</p>
-            <a href="#" class="article-read">Read more →</a>
-          </div>
-        </div>
-
-        <div class="article-card">
-          <div class="article-thumb">
-            <div class="thumb-bg bg-gold"></div>
-            <span class="thumb-emoji">📅</span>
-          </div>
-          <div class="article-body">
-            <div class="article-meta">
-              <span class="tag tag-history">History</span>
-              <span class="article-date">Apr 15, 2026</span>
-            </div>
-            <h3>On This Day in 2020: What Eurovision Would Have Looked Like</h3>
-            <p>The cancelled contest we never got — exploring the entries, favourites, and what could have been.</p>
-            <a href="#" class="article-read">Read more →</a>
-          </div>
-        </div>
-
+      <div class="articles-grid" id="dynamic-articles">
+        <p style="color: var(--muted);">Loading articles directly from headquarters...</p>
       </div>
+
     </div>
   </section>
 
-  <section class="fun-facts-section" id="facts">
-    <div class="section-wrap">
-      <p class="section-label">✦ Did You Know?</p>
-      <h2 class="section-title">Eurovision <span>By the Numbers</span></h2>
-
-      <div class="facts-grid">
-        <div class="fact-card">
-          <div class="fact-number">68</div>
-          <span class="fact-accent">🏆</span>
-          <h4>Editions Held</h4>
-          <p>Eurovision has been running since 1956, making it the longest-running annual international TV competition in the world.</p>
+  <div class="modal-overlay" id="articleModal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal(event)">&times;</button>
+      <img id="modalImg" class="modal-img" src="" alt="Article Header">
+      
+      <div class="modal-text-wrap">
+        <div class="modal-header">
+          <span class="tag tag-news" id="modalTag">News</span>
+          <h2 class="modal-title" id="modalTitle">Loading Title...</h2>
+          <span class="article-date" id="modalDate" style="color: var(--muted); font-size: 0.9rem;"></span>
         </div>
-        <div class="fact-card">
-          <div class="fact-number">7</div>
-          <span class="fact-accent">🇮🇪</span>
-          <h4>Ireland's Record Wins</h4>
-          <p>Ireland holds the record for the most Eurovision wins — including three consecutive victories from 1992 to 1994.</p>
-        </div>
-        <div class="fact-card">
-          <div class="fact-number">163M</div>
-          <span class="fact-accent">📺</span>
-          <h4>Viewers in 2023</h4>
-          <p>The 2023 Liverpool final attracted over 163 million viewers worldwide — one of the most-watched live TV events on the planet.</p>
-        </div>
-        <div class="fact-card">
-          <div class="fact-number">0</div>
-          <span class="fact-accent">💀</span>
-          <h4>Nil Points Hall of Fame</h4>
-          <p>Norway has received nil points a record four times — more than any other country. They've also won three times. It's a rollercoaster.</p>
+        <div class="modal-body" id="modalBody">
+          Loading content...
         </div>
       </div>
     </div>
-  </section>
-
-  <section class="newsletter-section" id="newsletter">
-    <div class="newsletter-inner">
-      <p class="section-label">✦ Stay in the Loop</p>
-      <h2 class="section-title">Never Miss a <span>Beat</span></h2>
-      <p>Get our weekly digest of Eurovision news, history moments, and fun facts delivered straight to your inbox.</p>
-      <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
-        <button class="btn btn-primary">Subscribe ✦</button>
-      </div>
-    </div>
-  </section>
+  </div>
 
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">
-        <a href="index.html" class="logo">
-          <span class="logo-star"></span>
-          EuroFever
-        </a>
+        <a href="#" class="logo"><span class="logo-star"></span>EuroFever</a>
         <p>A fan site made with love for the greatest show on Earth. Not affiliated with the EBU or Eurovision Song Contest.</p>
       </div>
       <div class="footer-col">
         <h5>Explore</h5>
         <a href="#news">Latest News</a>
-        <a href="#history">This Day in History</a>
-        <a href="#facts">Fun Facts</a>
         <a href="scoreboard.html">Live Scoreboard</a>
-      </div>
-      <div class="footer-col">
-        <h5>Archive</h5>
-        <a href="#">2020s</a>
-        <a href="#">2010s</a>
-        <a href="#">2000s</a>
-        <a href="#">1990s & Earlier</a>
       </div>
       <div class="footer-col">
         <h5>Connect</h5>
         <a href="#">Instagram</a>
         <a href="#">Twitter / X</a>
-        <a href="#">TikTok</a>
-        <a href="#">About Us</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -802,15 +203,7 @@
   </footer>
 
   <script>
-    // Set today's date in the This Day card
-    const dateEl = document.getElementById('todayDate');
-    if (dateEl) {
-      const now = new Date();
-      const opts = { month: 'long', day: 'numeric' };
-      dateEl.textContent = now.toLocaleDateString('en-GB', opts);
-    }
-
-    // Generate sparkles
+    // --- 1. SPARKLE GENERATOR ---
     const field = document.getElementById('sparkleField');
     const sparkCount = 80;
     const types = ['', 'pink', 'teal', 'big'];
@@ -824,16 +217,99 @@
       field.appendChild(s);
     }
 
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
+    // --- 2. GOOGLE SHEETS INTEGRATION ---
+    const sheetId = '1hdaSAUNFD8Q6t1wGJ_kqnx7AabbMefj4RuwMU7Oo-aM';
+    const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
+
+    Papa.parse(csvUrl, {
+      download: true,
+      header: true,
+      complete: function(results) {
+        const articles = results.data;
+        const grid = document.getElementById('dynamic-articles');
+        grid.innerHTML = ''; // Clear the "Loading..." text
+
+        articles.forEach((article, index) => {
+          if (!article.Title || article.Title.trim() === '') return; // Skip empty rows
+
+          // Set category colors
+          let tagClass = 'tag-news';
+          const cat = (article.Category || '').toLowerCase();
+          if(cat.includes('history')) tagClass = 'tag-history';
+          else if(cat.includes('fun')) tagClass = 'tag-fun';
+          else if(cat.includes('opinion')) tagClass = 'tag-opinion';
+
+          // Set random background if no image exists
+          const bgClasses = ['bg-pink', 'bg-teal', 'bg-gold', 'bg-purple'];
+          const randomBg = bgClasses[index % bgClasses.length];
+          const emojis = ['🎤', '🏆', '🌍', '🎵', '🗳️', '📅'];
+          const randomEmoji = emojis[index % emojis.length];
+
+          let thumbHtml = '';
+          if(article.Image && article.Image.trim() !== '') {
+            thumbHtml = `<img src="${article.Image}" style="width:100%; height:100%; object-fit:cover;" alt="thumbnail">`;
+          } else {
+            thumbHtml = `<div class="thumb-bg ${randomBg}"></div><span class="thumb-emoji">${randomEmoji}</span>`;
+          }
+
+          // Securely prep data to send to the modal
+          const safeArticle = encodeURIComponent(JSON.stringify(article));
+
+          const card = document.createElement('div');
+          card.className = 'article-card';
+          // Make the whole card click to open the modal
+          card.onclick = () => openModal(decodeURIComponent(safeArticle));
+          card.innerHTML = `
+            <div class="article-thumb">${thumbHtml}</div>
+            <div class="article-body">
+              <div class="article-meta">
+                <span class="tag ${tagClass}">${article.Category || 'News'}</span>
+                <span class="article-date">${article.Date || ''}</span>
+              </div>
+              <h3>${article.Title}</h3>
+              <p>${article.Summary || ''}</p>
+              <span class="article-read">Read more →</span>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      },
+      error: function() {
+        document.getElementById('dynamic-articles').innerHTML = '<p style="color: red;">Error connecting to headquarters. Please check the Google Sheet link.</p>';
+      }
     });
+
+    // --- 3. MODAL LOGIC ---
+    function openModal(articleJson) {
+      const article = JSON.parse(articleJson);
+      
+      document.getElementById('modalTitle').textContent = article.Title;
+      document.getElementById('modalDate').textContent = article.Date || '';
+      document.getElementById('modalTag').textContent = article.Category || 'News';
+      
+      // We use textContent for safety, but CSS "white-space: pre-wrap" preserves your paragraph Enters!
+      document.getElementById('modalBody').textContent = article.Content || 'No full article text provided.';
+      
+      // Handle Image
+      const imgEl = document.getElementById('modalImg');
+      if(article.Image && article.Image.trim() !== '') {
+         imgEl.src = article.Image;
+         imgEl.style.display = 'block';
+      } else {
+         imgEl.style.display = 'none';
+         imgEl.src = '';
+      }
+
+      // Show Modal & lock background scrolling
+      document.getElementById('articleModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+      if(e) e.preventDefault();
+      document.getElementById('articleModal').classList.remove('active');
+      document.body.style.overflow = 'auto'; // Unlock background scrolling
+    }
   </script>
 </body>
 </html>
