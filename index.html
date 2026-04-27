@@ -378,6 +378,34 @@
     <button onclick="exportStyles()" style="width:100%; background:var(--pink); color:white; border:none; padding:10px; border-radius:5px; cursor:pointer; font-weight:bold;">Copy CSS to Clipboard</button>
     <p style="font-size:10px; color:var(--muted); margin-top:10px;">Adjust the site, then click copy and paste the result into your :root in GitHub.</p>
   </div>
+<div id="adminSidebar" style="position:fixed; top:0; right:-300px; width:300px; height:100vh; background:#13102e; border-left:1px solid var(--gold); z-index:9999; padding:20px; transition:0.3s; box-shadow:-10px 0 30px rgba(0,0,0,0.5); overflow-y:auto; font-family:sans-serif;">
+    <h3 style="color:var(--gold); font-family:'Cinzel'; margin-bottom:20px;">Design Lab</h3>
+    
+    <div style="margin-bottom:15px;">
+      <label style="display:block; font-size:12px; color:var(--muted); margin-bottom:5px;">Main Accent (Gold)</label>
+      <input type="color" id="colorGold" value="#e2b94a" oninput="updateStyle('--gold', this.value)" style="width:100%; height:40px; border:none; background:none; cursor:pointer;">
+    </div>
+
+    <div style="margin-bottom:15px;">
+      <label style="display:block; font-size:12px; color:var(--muted); margin-bottom:5px;">Secondary (Pink)</label>
+      <input type="color" id="colorPink" value="#ff3d7f" oninput="updateStyle('--pink', this.value)" style="width:100%; height:40px; border:none; background:none; cursor:pointer;">
+    </div>
+
+    <div style="margin-bottom:15px;">
+      <label style="display:block; font-size:12px; color:var(--muted); margin-bottom:5px;">Background</label>
+      <input type="color" id="colorBg" value="#08071a" oninput="updateStyle('--bg', this.value)" style="width:100%; height:40px; border:none; background:none; cursor:pointer;">
+    </div>
+
+    <div style="margin-bottom:15px;">
+      <label style="display:block; font-size:12px; color:var(--muted); margin-bottom:5px;">Card Rounding</label>
+      <input type="range" min="0" max="50" value="14" oninput="updateStyle('--rounding', this.value + 'px')" style="width:100%;">
+    </div>
+
+    <hr style="border:0; border-top:1px solid var(--border); margin:20px 0;">
+    
+    <button onclick="exportStyles()" style="width:100%; background:var(--pink); color:white; border:none; padding:10px; border-radius:5px; cursor:pointer; font-weight:bold;">Copy CSS to Clipboard</button>
+    <p style="font-size:10px; color:var(--muted); margin-top:10px;">Adjust the site, then click copy and paste the result into your :root in GitHub.</p>
+  </div>
 
   <button onclick="toggleAdmin()" style="position:fixed; bottom:20px; right:20px; width:50px; height:50px; border-radius:50%; background:var(--gold); border:none; cursor:pointer; z-index:10000; box-shadow:0 0 20px var(--gold); font-size:20px;">🪄</button>
 </body>
