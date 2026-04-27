@@ -10,11 +10,17 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg: #08071a; --bg2: #0e0c25; --bg3: #13102e;
-      --gold: #e2b94a; --gold-light: #f5d98b; --pink: #ff3d7f;
-      --teal: #00e5c8; --text: #f0edf8; --muted: #9b97b8;
-      --border: rgba(226, 185, 74, 0.2); --card-bg: rgba(255,255,255,0.04);
+   :root {
+      /* These will be controlled by your sidebar */
+      --bg: #08071a; 
+      --bg2: #0e0c25; 
+      --gold: #e2b94a; 
+      --pink: #ff3d7f;
+      --teal: #00e5c8; 
+      --text: #f0edf8;
+      --border: rgba(226, 185, 74, 0.2); 
+      --card-bg: rgba(255,255,255,0.04);
+      --rounding: 14px; /* We'll make this adjustable! */
     }
 
     html { scroll-behavior: smooth; }
