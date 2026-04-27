@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EuroFever — Live Scoreboard Simulator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── BASE THEME ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #08071a; --bg2: #0e0c25; --bg3: #13102e;
+      --gold: #e2b94a; --gold-light: #f5d98b; --pink: #ff3d7f;
+      --teal: #00e5c8; --text: #f0edf8; --muted: #9b97b8;
+      --border: rgba(226, 185, 74, 0.2); --card-bg: rgba(255,255,255,0.04);
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 16px; line-height: 1.7; }
+    
+    /* ── HEADER ── */
+    header { position: sticky; top: 0; z-index: 100; background: rgba(8, 7, 26, 0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { font-family: 'Cinzel', serif; font-size: 1.5rem; font-weight: 700; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .logo-star { display: inline-block; width: 20px; height: 20px; background: var(--pink); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+    nav { display: flex; gap: 2rem; align-items: center; }
+    nav a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 600; text-transform: uppercase; transition: color 0.2s; }
+    nav a:hover { color: var(--gold); }
+    nav .nav-cta { background: var(--pink); color: #fff; padding: 0.4rem 1.1rem; border-radius: 2rem; }
+
+    /* ── SCOREBOARD LAYOUT ── */
+    .scoreboard-container { max-width: 1200px; margin: 4rem auto; padding: 0 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .section-title { font-family: 'Cinzel', serif; font-size: 2rem; color: #fff; margin-bottom: 2rem; }
+    .section-title span { color: var(--pink); }
+    
+    /* Voting Panel */
+    .voting-panel { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; }
+    .country-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .country-name { font-weight: 600; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+    select { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 8px; font-family: 'Nunito', sans-serif; font-weight: 700; outline: none; cursor: pointer; }
+    select option { background: var(--bg); }
+    
+    /* Leaderboard Panel */
+    .leaderboard-panel { background: linear-gradient(135deg, var(--bg3), var(--bg2)); border: 1px solid var(--gold); border-radius: 16px; padding: 2rem; box-shadow: 0 10px 40px rgba(226, 185, 74, 0.1); }
+    .leaderboard-row { display: flex; justify-content: space-between; align-items: center; padding: 1rem; margin-bottom: 0.5rem; background: var(--card-bg); border-radius: 8px; transition: transform 0.3s ease; }
+    .leaderboard-row.top-1 { background: rgba(226, 185, 74, 0.2); border: 1px solid var(--gold); transform: scale(1.02); }
+    .leaderboard-row.top-2 { background: rgba(192, 192, 192, 0.1); border: 1px solid #c0c0c0; }
+    .leaderboard-row.top-3 { background: rgba(205, 127, 50, 0.1); border: 1px solid #cd7f32; }
+    .points-display { font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.5rem; color: var(--gold); }
+    
+    .btn-reset { margin-top: 2rem; width: 100%; background: transparent; color: var(--pink); border: 2px solid var(--pink); padding: 1rem; border-radius: 2rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    .btn-reset:hover { background: var(--pink); color: #fff; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--bg); border-top: 1px solid var(--border); padding: 3rem 2rem 2rem; margin-top: 4rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .footer-brand p { color: var(--muted); font-size: 0.875rem; margin-top: 0.75rem; max-width: 260px; }
+    .footer-col h5 { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .footer-col a { display: block; color: var(--muted); text-decoration: none; font-size: 0.875rem; margin-bottom: 0.5rem; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--text); }
+    .footer-bottom { max-width: 1200px; margin: 1.5rem auto 0; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: var(--muted); }
+
+    @media (max-width: 768px) { .scoreboard-container { grid-template-columns: 1fr; } .footer-inner { grid-template-columns: 1fr 1fr; } nav .nav-links { display: none; } }
+    @media (max-width: 480px) { .footer-inner { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo"><span class="logo-star"></span>EuroFever</a>
+      <nav>
+        <a href="index.html#news" class="nav-links">News</a>
+        <a href="scoreboard.html" class="nav-links" style="color: var(--gold);">Scoreboard</a>
+        <a href="index.html#history" class="nav-links">History</a>
+        <a href="index.html#newsletter" class="nav-cta">Subscribe</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="scoreboard-container">
+    
+    <div class="voting-panel">
+      <h2 class="section-title">Cast Your <span>Jury Votes</span></h2>
+      <p style="color: var(--muted); margin-bottom: 1.5rem;">Assign your points to the finalists. Remember, you can only give out each point value once!</p>
+      <div id="voting-list"></div>
+      <button class="btn-reset" onclick="resetJury()">Reset Jury</button>
+    </div>
+
+    <div class="leaderboard-panel">
+      <h2 class="section-title" style="text-align: center;">Live <span>Leaderboard</span></h2>
+      <div id="leaderboard-list"></div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <span class="logo-star"></span>
+          EuroFever
+        </a>
+        <p>A fan site made with love for the greatest show on Earth. Not affiliated with the EBU or Eurovision Song Contest.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Explore</h5>
+        <a href="index.html#news">Latest News</a>
+        <a href="index.html#history">This Day in History</a>
+        <a href="index.html#facts">Fun Facts</a>
+        <a href="scoreboard.html">Live Scoreboard</a>
+      </div>
+      <div class="footer-col">
+        <h5>Archive</h5>
+        <a href="#">2020s</a>
+        <a href="#">2010s</a>
+        <a href="#">2000s</a>
+        <a href="#">1990s & Earlier</a>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <a href="#">Instagram</a>
+        <a href="#">Twitter / X</a>
+        <a href="#">TikTok</a>
+        <a href="#">About Us</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 EuroFever Fan Site. All rights reserved.</span>
+      <span>Made with ✦ for Eurovision fans everywhere</span>
+    </div>
+  </footer>
+
+  <script>
+    const countries = [
+      { name: 'Albania', flag: '🇦🇱' },
+      { name: 'Italy', flag: '🇮🇹' },
+      { name: 'Sweden', flag: '🇸🇪' },
+      { name: 'Ukraine', flag: '🇺🇦' },
+      { name: 'United Kingdom', flag: '🇬🇧' },
+      { name: 'France', flag: '🇫🇷' },
+      { name: 'Spain', flag: '🇪🇸' },
+      { name: 'Norway', flag: '🇳🇴' }
+    ];
+    
+    const availablePoints = [12, 10, 8, 7, 6, 5, 4, 3, 2, 1];
+    let countryScores = {};
+
+    // Initialize scores
+    countries.forEach(c => countryScores[c.name] = 0);
+
+    function renderVotingPanel() {
+      const list = document.getElementById('voting-list');
+      list.innerHTML = '';
+
+      countries.forEach(country => {
+        const row = document.createElement('div');
+        row.className = 'country-row';
+        
+        // Find if this country already has a point assigned
+        const currentScore = countryScores[country.name];
+
+        let selectHTML = `<select onchange="assignPoints('${country.name}', this.value)">`;
+        selectHTML += `<option value="0">Select Points</option>`;
+        
+        availablePoints.forEach(point => {
+          // Check if point is already used by ANOTHER country
+          const isUsed = Object.values(countryScores).includes(point);
+          const isSelectedByMe = currentScore === point;
+          
+          if (!isUsed || isSelectedByMe) {
+            selectHTML += `<option value="${point}" ${isSelectedByMe ? 'selected' : ''}>${point} Points</option>`;
+          }
+        });
+        selectHTML += `</select>`;
+
+        row.innerHTML = `<div class="country-name">${country.flag} ${country.name}</div> ${selectHTML}`;
+        list.appendChild(row);
+      });
+    }
+
+    function renderLeaderboard() {
+      const list = document.getElementById('leaderboard-list');
+      list.innerHTML = '';
+
+      // Sort countries by score descending
+      const sortedCountries = [...countries].sort((a, b) => countryScores[b.name] - countryScores[a.name]);
+
+      sortedCountries.forEach((country, index) => {
+        const score = countryScores[country.name];
+        const row = document.createElement('div');
+        
+        // Add styling for top 3
+        let topClass = '';
+        if (index === 0 && score > 0) topClass = 'top-1';
+        if (index === 1 && score > 0) topClass = 'top-2';
+        if (index === 2 && score > 0) topClass = 'top-3';
+        
+        row.className = `leaderboard-row ${topClass}`;
+        row.innerHTML = `
+          <div class="country-name">
+            <span style="color: var(--muted); margin-right: 10px;">${index + 1}</span> 
+            ${country.flag} ${country.name}
+          </div>
+          <div class="points-display">${score}</div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function assignPoints(countryName, value) {
+      const points = parseInt(value);
+      countryScores[countryName] = points;
+      renderVotingPanel(); // Re-render to disable used points
+      renderLeaderboard(); // Update rankings
+    }
+
+    function resetJury() {
+      countries.forEach(c => countryScores[c.name] = 0);
+      renderVotingPanel();
+      renderLeaderboard();
+    }
+
+    // Initial render
+    renderVotingPanel();
+    renderLeaderboard();
+  </script>
+</body>
+</html>
