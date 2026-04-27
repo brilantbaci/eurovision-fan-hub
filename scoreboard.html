@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EuroFever — Live Scoreboard Simulator</title>
+  <title>EuroFever — Global Fan Scoreboard</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   
   <style>
     /* ── BASE THEME ── */
@@ -50,8 +51,14 @@
     .leaderboard-row.top-3 { background: rgba(205, 127, 50, 0.1); border: 1px solid #cd7f32; }
     .points-display { font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.5rem; color: var(--gold); }
     
-    .btn-reset { margin-top: 2rem; width: 100%; background: transparent; color: var(--pink); border: 2px solid var(--pink); padding: 1rem; border-radius: 2rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
-    .btn-reset:hover { background: var(--pink); color: #fff; }
+    /* Buttons */
+    .actions-wrap { display: flex; gap: 1rem; margin-top: 2rem; }
+    .btn { flex: 1; padding: 1rem; border-radius: 2rem; font-weight: bold; cursor: pointer; transition: 0.3s; text-align: center; border: none; font-size: 1rem; font-family: 'Nunito', sans-serif; }
+    .btn-submit { background: var(--pink); color: #fff; box-shadow: 0 4px 15px rgba(255,61,127,0.3); }
+    .btn-submit:hover { background: #ff5c93; transform: translateY(-2px); }
+    .btn-submit:disabled { background: var(--muted); cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-reset { background: transparent; color: var(--pink); border: 2px solid var(--pink); }
+    .btn-reset:hover { background: rgba(255,61,127,0.1); }
 
     /* ── FOOTER ── */
     footer { background: var(--bg); border-top: 1px solid var(--border); padding: 3rem 2rem 2rem; margin-top: 4rem; }
@@ -62,7 +69,7 @@
     .footer-col a:hover { color: var(--text); }
     .footer-bottom { max-width: 1200px; margin: 1.5rem auto 0; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: var(--muted); }
 
-    @media (max-width: 768px) { .scoreboard-container { grid-template-columns: 1fr; } .footer-inner { grid-template-columns: 1fr 1fr; } nav .nav-links { display: none; } }
+    @media (max-width: 768px) { .scoreboard-container { grid-template-columns: 1fr; } .footer-inner { grid-template-columns: 1fr 1fr; } nav .nav-links { display: none; } .actions-wrap { flex-direction: column; } }
     @media (max-width: 480px) { .footer-inner { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -72,10 +79,9 @@
     <div class="header-inner">
       <a href="index.html" class="logo"><span class="logo-star"></span>EuroFever</a>
       <nav>
-        <a href="index.html#news" class="nav-links">News</a>
+        <a href="index.html" class="nav-links">Home</a>
+        <a href="index.html" class="nav-links">News</a>
         <a href="scoreboard.html" class="nav-links" style="color: var(--gold);">Scoreboard</a>
-        <a href="index.html#history" class="nav-links">History</a>
-        <a href="index.html#newsletter" class="nav-cta">Subscribe</a>
       </nav>
     </div>
   </header>
@@ -84,13 +90,18 @@
     
     <div class="voting-panel">
       <h2 class="section-title">Cast Your <span>Jury Votes</span></h2>
-      <p style="color: var(--muted); margin-bottom: 1.5rem;">Assign your points to the finalists. Remember, you can only give out each point value once!</p>
+      <p style="color: var(--muted); margin-bottom: 1.5rem;">Assign your points to your favorite 2026 entries. When you are done, submit to the global tally!</p>
       <div id="voting-list"></div>
-      <button class="btn-reset" onclick="resetJury()">Reset Jury</button>
+      
+      <div class="actions-wrap">
+        <button class="btn btn-reset" onclick="resetJury()">Reset</button>
+        <button class="btn btn-submit" id="submit-btn" onclick="submitVotes()">Submit My Votes!</button>
+      </div>
     </div>
 
     <div class="leaderboard-panel">
-      <h2 class="section-title" style="text-align: center;">Live <span>Leaderboard</span></h2>
+      <h2 class="section-title" style="text-align: center;">Global <span>Leaderboard</span></h2>
+      <p style="color: var(--muted); text-align: center; margin-bottom: 1.5rem;" id="leaderboard-status">Loading worldwide votes...</p>
       <div id="leaderboard-list"></div>
     </div>
 
@@ -107,24 +118,13 @@
       </div>
       <div class="footer-col">
         <h5>Explore</h5>
-        <a href="index.html#news">Latest News</a>
-        <a href="index.html#history">This Day in History</a>
-        <a href="index.html#facts">Fun Facts</a>
+        <a href="index.html">Latest News</a>
         <a href="scoreboard.html">Live Scoreboard</a>
-      </div>
-      <div class="footer-col">
-        <h5>Archive</h5>
-        <a href="#">2020s</a>
-        <a href="#">2010s</a>
-        <a href="#">2000s</a>
-        <a href="#">1990s & Earlier</a>
       </div>
       <div class="footer-col">
         <h5>Connect</h5>
         <a href="#">Instagram</a>
         <a href="#">Twitter / X</a>
-        <a href="#">TikTok</a>
-        <a href="#">About Us</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -134,52 +134,40 @@
   </footer>
 
   <script>
+    // --- YOUR UNIQUE DATABASE LINKS ---
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8nk_lVCOG69gUCLGoHBg2MUX7WbLGk9xSsSvpdCgtwUHBqR6ymas1f30OEtBuFHQIGw/exec';
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSg1SG5NVAG3FULsQONuddyeXZcC6QHmjmzZPqJxMiRNcq80KtRnCJnPIRwBkgpBe51MzmQmgwyS8Qg/pub?output=csv';
+
+    // 35-country list for 2026
     const countries = [
-      { name: 'Albania', code: 'al' },
-      { name: 'Armenia', code: 'am' },
-      { name: 'Australia', code: 'au' },
-      { name: 'Austria', code: 'at' },
-      { name: 'Azerbaijan', code: 'az' },
-      { name: 'Belgium', code: 'be' },
-      { name: 'Croatia', code: 'hr' },
-      { name: 'Cyprus', code: 'cy' },
-      { name: 'Czechia', code: 'cz' },
-      { name: 'Denmark', code: 'dk' },
-      { name: 'Estonia', code: 'ee' },
-      { name: 'Finland', code: 'fi' },
-      { name: 'France', code: 'fr' },
-      { name: 'Georgia', code: 'ge' },
-      { name: 'Germany', code: 'de' },
-      { name: 'Greece', code: 'gr' },
-      { name: 'Iceland', code: 'is' },
-      { name: 'Ireland', code: 'ie' },
-      { name: 'Israel', code: 'il' },
-      { name: 'Italy', code: 'it' },
-      { name: 'Latvia', code: 'lv' },
-      { name: 'Lithuania', code: 'lt' },
-      { name: 'Luxembourg', code: 'lu' },
-      { name: 'Malta', code: 'mt' },
-      { name: 'Moldova', code: 'md' },
-      { name: 'Netherlands', code: 'nl' },
-      { name: 'Norway', code: 'no' },
-      { name: 'Poland', code: 'pl' },
-      { name: 'Portugal', code: 'pt' },
-      { name: 'San Marino', code: 'sm' },
-      { name: 'Serbia', code: 'rs' },
-      { name: 'Slovenia', code: 'si' },
-      { name: 'Spain', code: 'es' },
-      { name: 'Sweden', code: 'se' },
-      { name: 'Switzerland', code: 'ch' },
-      { name: 'Ukraine', code: 'ua' },
-      { name: 'United Kingdom', code: 'gb' }
+      { name: 'Albania', code: 'al' }, { name: 'Armenia', code: 'am' }, { name: 'Australia', code: 'au' },
+      { name: 'Austria', code: 'at' }, { name: 'Azerbaijan', code: 'az' }, { name: 'Belgium', code: 'be' },
+      { name: 'Bulgaria', code: 'bg' }, { name: 'Croatia', code: 'hr' }, { name: 'Cyprus', code: 'cy' },
+      { name: 'Czechia', code: 'cz' }, { name: 'Denmark', code: 'dk' }, { name: 'Estonia', code: 'ee' },
+      { name: 'Finland', code: 'fi' }, { name: 'France', code: 'fr' }, { name: 'Georgia', code: 'ge' },
+      { name: 'Germany', code: 'de' }, { name: 'Greece', code: 'gr' }, { name: 'Israel', code: 'il' },
+      { name: 'Italy', code: 'it' }, { name: 'Latvia', code: 'lv' }, { name: 'Lithuania', code: 'lt' },
+      { name: 'Luxembourg', code: 'lu' }, { name: 'Malta', code: 'mt' }, { name: 'Moldova', code: 'md' },
+      { name: 'Montenegro', code: 'me' }, { name: 'Norway', code: 'no' }, { name: 'Poland', code: 'pl' },
+      { name: 'Portugal', code: 'pt' }, { name: 'Romania', code: 'ro' }, { name: 'San Marino', code: 'sm' },
+      { name: 'Serbia', code: 'rs' }, { name: 'Sweden', code: 'se' }, { name: 'Switzerland', code: 'ch' },
+      { name: 'Ukraine', code: 'ua' }, { name: 'United Kingdom', code: 'gb' }
     ];
     
     const availablePoints = [12, 10, 8, 7, 6, 5, 4, 3, 2, 1];
-    let countryScores = {};
+    
+    // User's temporary selections
+    let myScores = {};
+    // Aggregated global scores from the spreadsheet
+    let globalScores = {};
 
     // Initialize scores
-    countries.forEach(c => countryScores[c.name] = 0);
+    countries.forEach(c => {
+        myScores[c.name] = 0;
+        globalScores[c.name] = 0;
+    });
 
+    // --- 1. RENDER LEFT PANEL (VOTING) ---
     function renderVotingPanel() {
       const list = document.getElementById('voting-list');
       list.innerHTML = '';
@@ -188,15 +176,13 @@
         const row = document.createElement('div');
         row.className = 'country-row';
         
-        // Find if this country already has a point assigned
-        const currentScore = countryScores[country.name];
+        const currentScore = myScores[country.name];
 
         let selectHTML = `<select onchange="assignPoints('${country.name}', this.value)">`;
         selectHTML += `<option value="0">Select Points</option>`;
         
         availablePoints.forEach(point => {
-          // Check if point is already used by ANOTHER country
-          const isUsed = Object.values(countryScores).includes(point);
+          const isUsed = Object.values(myScores).includes(point);
           const isSelectedByMe = currentScore === point;
           
           if (!isUsed || isSelectedByMe) {
@@ -205,32 +191,74 @@
         });
         selectHTML += `</select>`;
 
-        // Updated innerHTML to use the new flag graphics class
         row.innerHTML = `<div class="country-name"><span class="fi fi-${country.code}" style="margin-right: 8px; border-radius: 2px;"></span> ${country.name}</div> ${selectHTML}`;
         list.appendChild(row);
       });
     }
 
-    function renderLeaderboard() {
+    function assignPoints(countryName, value) {
+      myScores[countryName] = parseInt(value);
+      renderVotingPanel();
+    }
+
+    function resetJury() {
+      countries.forEach(c => myScores[c.name] = 0);
+      renderVotingPanel();
+      document.getElementById('submit-btn').innerText = "Submit My Votes!";
+      document.getElementById('submit-btn').disabled = false;
+    }
+
+    // --- 2. FETCH & RENDER RIGHT PANEL (GLOBAL LEADERBOARD) ---
+    function fetchGlobalLeaderboard() {
+      Papa.parse(CSV_URL, {
+        download: true,
+        complete: function(results) {
+          // Reset global tallies
+          countries.forEach(c => globalScores[c.name] = 0);
+          
+          // Add up all votes from the CSV
+          results.data.forEach(row => {
+            if (row.length > 1) {
+              try {
+                // Assuming Column 1 (index 0) is Timestamp, Column 2 (index 1) is JSON votes
+                let fanVotes = JSON.parse(row[1]);
+                for (let country in fanVotes) {
+                  if (globalScores[country] !== undefined) {
+                    globalScores[country] += parseInt(fanVotes[country]);
+                  }
+                }
+              } catch(e) {
+                // Ignore rows that aren't valid JSON (like header rows)
+              }
+            }
+          });
+          
+          document.getElementById('leaderboard-status').innerText = "Live Worldwide Tally";
+          renderGlobalLeaderboard();
+        },
+        error: function() {
+           document.getElementById('leaderboard-status').innerText = "Error loading live data.";
+           renderGlobalLeaderboard(); // Will just render 0s
+        }
+      });
+    }
+
+    function renderGlobalLeaderboard() {
       const list = document.getElementById('leaderboard-list');
       list.innerHTML = '';
 
-      // Sort countries by score descending
-      const sortedCountries = [...countries].sort((a, b) => countryScores[b.name] - countryScores[a.name]);
+      const sortedCountries = [...countries].sort((a, b) => globalScores[b.name] - globalScores[a.name]);
 
       sortedCountries.forEach((country, index) => {
-        const score = countryScores[country.name];
+        const score = globalScores[country.name];
         const row = document.createElement('div');
         
-        // Add styling for top 3
         let topClass = '';
         if (index === 0 && score > 0) topClass = 'top-1';
         if (index === 1 && score > 0) topClass = 'top-2';
         if (index === 2 && score > 0) topClass = 'top-3';
         
         row.className = `leaderboard-row ${topClass}`;
-        
-        // Updated innerHTML to use the new flag graphics class
         row.innerHTML = `
           <div class="country-name">
             <span style="color: var(--muted); margin-right: 12px; min-width: 20px; display: inline-block;">${index + 1}</span> 
@@ -242,22 +270,49 @@
       });
     }
 
-    function assignPoints(countryName, value) {
-      const points = parseInt(value);
-      countryScores[countryName] = points;
-      renderVotingPanel(); // Re-render to disable used points
-      renderLeaderboard(); // Update rankings
+    // --- 3. SUBMIT VOTES TO GOOGLE SHEETS ---
+    function submitVotes() {
+      let payload = {};
+      let hasVotes = false;
+      
+      // Filter out empty votes
+      for (let c in myScores) {
+        if (myScores[c] > 0) {
+            payload[c] = myScores[c];
+            hasVotes = true;
+        }
+      }
+
+      if (!hasVotes) {
+          alert("Please assign some points before submitting!");
+          return;
+      }
+
+      const btn = document.getElementById('submit-btn');
+      btn.innerText = "Submitting...";
+      btn.disabled = true;
+
+      // Pack the data and send it securely
+      const dataString = encodeURIComponent(JSON.stringify(payload));
+      const url = SCRIPT_URL + "?votes=" + dataString;
+
+      fetch(url, { mode: 'no-cors' })
+        .then(() => {
+          btn.innerText = "Votes Accepted! ✦";
+          // Wait 2 seconds, then refresh the global leaderboard so they see their impact!
+          setTimeout(fetchGlobalLeaderboard, 2000);
+        })
+        .catch(err => {
+          alert("Connection error. Try submitting again later.");
+          btn.innerText = "Submit My Votes!";
+          btn.disabled = false;
+        });
     }
 
-    function resetJury() {
-      countries.forEach(c => countryScores[c.name] = 0);
-      renderVotingPanel();
-      renderLeaderboard();
-    }
-
-    // Initial render
+    // Initial render on page load
     renderVotingPanel();
-    renderLeaderboard();
+    fetchGlobalLeaderboard();
+
   </script>
 </body>
 </html>
