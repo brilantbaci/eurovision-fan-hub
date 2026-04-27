@@ -101,6 +101,8 @@
     .modal-title { font-family: 'Cinzel', serif; font-size: 2.2rem; color: #fff; margin: 0.5rem 0; line-height: 1.2; }
     .modal-body { font-size: 1.1rem; line-height: 1.8; color: var(--text); white-space: pre-wrap; font-family: 'Nunito', sans-serif; }
 
+    #shareBtn:hover { background: rgba(226, 185, 74, 0.1) !important; }
+
     /* ── FOOTER ── */
     footer { background: var(--bg); border-top: 1px solid var(--border); padding: 3rem 2rem 2rem; }
     .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
@@ -162,17 +164,14 @@
           <span class="tag tag-news" id="modalTag">News</span>
           <h2 class="modal-title" id="modalTitle">Loading Title...</h2>
           <span class="article-date" id="modalDate" style="color: var(--muted); font-size: 0.9rem;"></span>
+          <br>
+          <button onclick="copyShareLink()" id="shareBtn" style="background:none; border:1px solid var(--border); color:var(--gold); padding:6px 12px; border-radius:4px; cursor:pointer; font-size:0.8rem; margin-top:10px; font-weight: bold; transition: 0.2s;">🔗 Copy Share Link</button>
         </div>
         <div class="modal-body" id="modalBody">Loading content...</div>
       </div>
     </div>
   </div>
-        <div class="modal-header">
-      <span class="tag tag-news" id="modalTag">News</span>
-    <h2 class="modal-title" id="modalTitle">Loading Title...</h2>
-  <span class="article-date" id="modalDate"></span>
-  <button onclick="copyShareLink()" id="shareBtn" style="background:none; border:1px solid var(--border); color:var(--gold); padding:4px 10px; border-radius:4px; cursor:pointer; font-size:0.8rem; margin-top:10px;">🔗 Copy Share Link</button>
- </div>
+
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">
@@ -220,9 +219,23 @@
       download: true,
       header: true,
       complete: function(results) {
-        // Save all valid articles globally
         allArticles = results.data.filter(a => a.Title && a.Title.trim() !== '');
-        showHome(); // Load the homepage view by default
+        
+        // CHECK IF URL HAS A SHARED ARTICLE
+        const urlParams = new URLSearchParams(window.location.search);
+        const sharedArticleTitle = urlParams.get('article');
+
+        if (sharedArticleTitle) {
+          const article = allArticles.find(a => a.Title === sharedArticleTitle);
+          if (article) {
+            showHome(false); 
+            openModal(JSON.stringify(article), false);
+          } else {
+            showHome();
+          }
+        } else {
+          showHome();
+        }
       },
       error: function() {
         document.getElementById('dynamic-articles').innerHTML = '<p style="color: red;">Error connecting to headquarters.</p>';
@@ -257,7 +270,7 @@
         const safeArticle = encodeURIComponent(JSON.stringify(article));
         const card = document.createElement('div');
         card.className = 'article-card';
-        card.onclick = () => openModal(decodeURIComponent(safeArticle));
+        card.onclick = () => openModal(decodeURIComponent(safeArticle), true);
         card.innerHTML = `
           <div class="article-thumb">${thumbHtml}</div>
           <div class="article-body">
@@ -274,34 +287,24 @@
       });
     }
 
-    function showHome() {
-      // Show hero
+    function showHome(shouldScroll = true) {
       document.getElementById('hero-section').style.display = 'flex';
-      // Reset titles
       document.getElementById('dynamic-label').innerHTML = '✦ Latest';
       document.getElementById('dynamic-title').innerHTML = 'Fresh from the <span>Stage</span>';
-      // Render only the top 6 most recent articles
       renderCards(allArticles.slice(0, 6));
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if(shouldScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function filterCategory(categoryName) {
-      // Hide hero banner to focus on content
       document.getElementById('hero-section').style.display = 'none';
-      // Update titles
       document.getElementById('dynamic-label').innerHTML = `✦ ${categoryName}`;
       document.getElementById('dynamic-title').innerHTML = `${categoryName} <span>Archive</span>`;
-      
-      // Filter the array based on what was typed in the Category column
       const filtered = allArticles.filter(a => (a.Category || '').toLowerCase().includes(categoryName.toLowerCase()));
       renderCards(filtered);
-      
-      // Scroll smoothly to the top of the content area
       document.getElementById('content-area').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // --- MODAL LOGIC ---
-    function openModal(articleJson) {
+    function openModal(articleJson, updateUrl) {
       const article = JSON.parse(articleJson);
       document.getElementById('modalTitle').textContent = article.Title;
       document.getElementById('modalDate').textContent = article.Date || '';
@@ -315,6 +318,11 @@
          imgEl.style.display = 'none'; imgEl.src = '';
       }
 
+      if (updateUrl) {
+        const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?article=' + encodeURIComponent(article.Title);
+        window.history.pushState({path:newUrl}, '', newUrl);
+      }
+
       document.getElementById('articleModal').classList.add('active');
       document.body.style.overflow = 'hidden';
     }
@@ -323,6 +331,17 @@
       if(e) e.preventDefault();
       document.getElementById('articleModal').classList.remove('active');
       document.body.style.overflow = 'auto';
+      const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+      window.history.pushState({path:cleanUrl}, '', cleanUrl);
+    }
+
+    function copyShareLink() {
+      const currentUrl = window.location.href;
+      navigator.clipboard.writeText(currentUrl).then(() => {
+        const btn = document.getElementById('shareBtn');
+        btn.innerText = "✅ Link Copied!";
+        setTimeout(() => { btn.innerText = "🔗 Copy Share Link"; }, 2000);
+      });
     }
   </script>
 </body>
