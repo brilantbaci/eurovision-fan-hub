@@ -4,7 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EuroFever — Live Scoreboard Simulator</title>
+  
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css"/>
+  
   <style>
     /* ── BASE THEME ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -131,14 +135,43 @@
 
   <script>
     const countries = [
-      { name: 'Albania', flag: '🇦🇱' },
-      { name: 'Italy', flag: '🇮🇹' },
-      { name: 'Sweden', flag: '🇸🇪' },
-      { name: 'Ukraine', flag: '🇺🇦' },
-      { name: 'United Kingdom', flag: '🇬🇧' },
-      { name: 'France', flag: '🇫🇷' },
-      { name: 'Spain', flag: '🇪🇸' },
-      { name: 'Norway', flag: '🇳🇴' }
+      { name: 'Albania', code: 'al' },
+      { name: 'Armenia', code: 'am' },
+      { name: 'Australia', code: 'au' },
+      { name: 'Austria', code: 'at' },
+      { name: 'Azerbaijan', code: 'az' },
+      { name: 'Belgium', code: 'be' },
+      { name: 'Croatia', code: 'hr' },
+      { name: 'Cyprus', code: 'cy' },
+      { name: 'Czechia', code: 'cz' },
+      { name: 'Denmark', code: 'dk' },
+      { name: 'Estonia', code: 'ee' },
+      { name: 'Finland', code: 'fi' },
+      { name: 'France', code: 'fr' },
+      { name: 'Georgia', code: 'ge' },
+      { name: 'Germany', code: 'de' },
+      { name: 'Greece', code: 'gr' },
+      { name: 'Iceland', code: 'is' },
+      { name: 'Ireland', code: 'ie' },
+      { name: 'Israel', code: 'il' },
+      { name: 'Italy', code: 'it' },
+      { name: 'Latvia', code: 'lv' },
+      { name: 'Lithuania', code: 'lt' },
+      { name: 'Luxembourg', code: 'lu' },
+      { name: 'Malta', code: 'mt' },
+      { name: 'Moldova', code: 'md' },
+      { name: 'Netherlands', code: 'nl' },
+      { name: 'Norway', code: 'no' },
+      { name: 'Poland', code: 'pl' },
+      { name: 'Portugal', code: 'pt' },
+      { name: 'San Marino', code: 'sm' },
+      { name: 'Serbia', code: 'rs' },
+      { name: 'Slovenia', code: 'si' },
+      { name: 'Spain', code: 'es' },
+      { name: 'Sweden', code: 'se' },
+      { name: 'Switzerland', code: 'ch' },
+      { name: 'Ukraine', code: 'ua' },
+      { name: 'United Kingdom', code: 'gb' }
     ];
     
     const availablePoints = [12, 10, 8, 7, 6, 5, 4, 3, 2, 1];
@@ -172,7 +205,8 @@
         });
         selectHTML += `</select>`;
 
-        row.innerHTML = `<div class="country-name">${country.flag} ${country.name}</div> ${selectHTML}`;
+        // Updated innerHTML to use the new flag graphics class
+        row.innerHTML = `<div class="country-name"><span class="fi fi-${country.code}" style="margin-right: 8px; border-radius: 2px;"></span> ${country.name}</div> ${selectHTML}`;
         list.appendChild(row);
       });
     }
@@ -195,10 +229,12 @@
         if (index === 2 && score > 0) topClass = 'top-3';
         
         row.className = `leaderboard-row ${topClass}`;
+        
+        // Updated innerHTML to use the new flag graphics class
         row.innerHTML = `
           <div class="country-name">
-            <span style="color: var(--muted); margin-right: 10px;">${index + 1}</span> 
-            ${country.flag} ${country.name}
+            <span style="color: var(--muted); margin-right: 12px; min-width: 20px; display: inline-block;">${index + 1}</span> 
+            <span class="fi fi-${country.code}" style="margin-right: 8px; border-radius: 2px;"></span> ${country.name}
           </div>
           <div class="points-display">${score}</div>
         `;
